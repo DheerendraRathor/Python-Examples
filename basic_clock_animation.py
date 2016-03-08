@@ -1,65 +1,114 @@
 """
-Animation of clock in python turtle
+The MIT License (MIT)
+
+Copyright (c) 2016 Dheerendra Rathor
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 
 @author Dheerendra Rathor <dheeru.rathor14@gmail.com>
 """
 
 from turtle import Turtle
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import sleep
 
-clock = Turtle()
-hour = Turtle()
-minute = Turtle()
-second = Turtle()
+clock_turtle = Turtle()
+hour_turtle = Turtle()
+minute_turtle = Turtle()
+second_turtle = Turtle()
 
-turtles = [clock, hour, minute, second]
+turtles = [clock_turtle, hour_turtle, minute_turtle, second_turtle]
 
 for turtle in turtles:
     turtle.speed(0)
     turtle.hideturtle()
 
+
 def make_clock():
-    clock.penup()
-    clock.color('#1A237E')
-    clock.left(90)
-    font_settings = ('Arial', 32, 'bold')
-    romans = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
-    for roman in romans:
-        clock.right(30)
-        clock.forward(300)
-        clock.write(roman, font=font_settings)
-        clock.back(300)
-    clock.pendown()
+    clock_turtle.penup()
+    clock_turtle.color('#1A237E', '#E8EAF6')
+
+    # Making Circle
+    clock_turtle.forward(350)
+    clock_turtle.left(90)
+    clock_turtle.pendown()
+    clock_turtle.begin_fill()
+    clock_turtle.circle(350)
+    clock_turtle.end_fill()
+    clock_turtle.penup()
+
+    clock_turtle.home()
+    clock_turtle.left(90)
+
+    for i in range(0, 60):
+        clock_turtle.forward(300)
+        if i % 5 == 0:
+            # 5 minutes complete
+            clock_turtle.pensize(10)
+            clock_turtle.pendown()
+            clock_turtle.forward(30)
+            clock_turtle.back(30)
+            clock_turtle.penup()
+
+        else:
+            clock_turtle.pensize(2)
+            clock_turtle.forward(10)
+            clock_turtle.pendown()
+            clock_turtle.forward(20)
+            clock_turtle.back(20)
+            clock_turtle.penup()
+            clock_turtle.back(10)
+
+        clock_turtle.back(300)
+        clock_turtle.right(6)
+
+    clock_turtle.home()
 
 
 def setup_hour_hand():
-    hour.pensize(10)
-    hour.color('#283593')
-    hour.home()
-    hour.left(90)
+    hour_turtle.pensize(10)
+    hour_turtle.color('#283593')
+    hour_turtle.home()
+    hour_turtle.left(90)
 
 
 def setup_minute_hand():
-    minute.pensize(5)
-    minute.color('#5C6BC0')
-    minute.home()
-    minute.left(90)
+    minute_turtle.pensize(5)
+    minute_turtle.color('#5C6BC0')
+    minute_turtle.home()
+    minute_turtle.left(90)
 
 
 def setup_second_hand():
-    second.home()
-    second.left(90)
-    second.pensize(1)
-    second.color('#1A237E')
+    second_turtle.home()
+    second_turtle.left(90)
+    second_turtle.pensize(1)
+    second_turtle.color('#1A237E')
 
 
 def get_current_time():
     now = datetime.now()
-    hour = (now.hour % 12) * 30 + (now.minute / 2)
-    minutes = now.minute * 6
     seconds = now.second * 6
-    return (hour, minutes, seconds)
+    minutes = now.minute * 6 + seconds // 60
+    hour = (now.hour % 12) * 30 + minutes // 12
+    return hour, minutes, seconds
 
 
 def start_clock():
@@ -73,39 +122,39 @@ def start_clock():
     old_hours = -1
     old_minutes = -1
 
-    for turtle in turtles:
-        turtle.hideturtle()
-        turtle.hideturtle()
+    for turtle_ in turtles:
+        turtle_.hideturtle()
+        turtle_.hideturtle()
 
-    
-    while True:    
+    while True:
         start_time = datetime.now()
         if hours != old_hours:
-            hour.undo()
-            hour.undo()
-            hour.right(hours)
-            hour.forward(100)
+            print('hours changed', hours, old_hours)
+            hour_turtle.undo()
+            hour_turtle.undo()
+            hour_turtle.right(hours)
+            hour_turtle.forward(100)
 
         if minutes != old_minutes:
-            minute.undo()
-            minute.undo()
-            minute.right(minutes)
-            minute.forward(200)
+            minute_turtle.undo()
+            minute_turtle.undo()
+            minute_turtle.right(minutes)
+            minute_turtle.forward(200)
 
-        second.undo()
-        second.undo()
-        second.right(seconds)
-        second.forward(250)
+        second_turtle.undo()
+        second_turtle.undo()
+        second_turtle.right(seconds)
+        second_turtle.forward(250)
 
         old_minutes = minutes
         old_hours = hours
 
         seconds += 6
 
-        if seconds == 360:
+        if seconds % 60 == 0:
             minutes += 1
 
-        if minutes == 12:
+        if minutes % 12 == 0:
             hours += 1
 
         seconds %= 360
