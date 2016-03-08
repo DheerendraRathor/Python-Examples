@@ -5,6 +5,8 @@ Animation of clock in python turtle
 """
 
 from turtle import Turtle
+from datetime import datetime, timedelta
+from time import sleep
 
 clock = Turtle()
 hour = Turtle()
@@ -17,29 +19,30 @@ for turtle in turtles:
     turtle.speed(0)
     turtle.hideturtle()
 
-
 def make_clock():
     clock.penup()
+    clock.color('#1A237E')
     clock.left(90)
-    font_settings = ('Arial', 16, 'bold')
-    for i in range(1, 13):
+    font_settings = ('Arial', 32, 'bold')
+    romans = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+    for roman in romans:
         clock.right(30)
         clock.forward(300)
-        clock.write(i, font=font_settings)
+        clock.write(roman, font=font_settings)
         clock.back(300)
     clock.pendown()
 
 
 def setup_hour_hand():
     hour.pensize(10)
-    hour.color('blue')
+    hour.color('#283593')
     hour.home()
     hour.left(90)
 
 
 def setup_minute_hand():
     minute.pensize(5)
-    minute.color('green')
+    minute.color('#5C6BC0')
     minute.home()
     minute.left(90)
 
@@ -48,7 +51,15 @@ def setup_second_hand():
     second.home()
     second.left(90)
     second.pensize(1)
-    second.color('red')
+    second.color('#1A237E')
+
+
+def get_current_time():
+    now = datetime.now()
+    hour = (now.hour % 12) * 30 + (now.minute / 2)
+    minutes = now.minute * 6
+    seconds = now.second * 6
+    return (hour, minutes, seconds)
 
 
 def start_clock():
@@ -57,9 +68,7 @@ def start_clock():
     setup_minute_hand()
     setup_second_hand()
 
-    hours = 0
-    minutes = 0
-    seconds = 0
+    hours, minutes, seconds = get_current_time()
 
     old_hours = -1
     old_minutes = -1
@@ -68,7 +77,9 @@ def start_clock():
         turtle.hideturtle()
         turtle.hideturtle()
 
-    while True:
+    
+    while True:    
+        start_time = datetime.now()
         if hours != old_hours:
             hour.undo()
             hour.undo()
@@ -89,7 +100,7 @@ def start_clock():
         old_minutes = minutes
         old_hours = hours
 
-        seconds += 1
+        seconds += 6
 
         if seconds == 360:
             minutes += 1
@@ -100,6 +111,10 @@ def start_clock():
         seconds %= 360
         minutes %= 360
         hours %= 360
+        end_time = datetime.now()
+        time_delta = end_time - start_time
+        sleep_seconds = 1 - time_delta.microseconds/1000000
+        sleep(sleep_seconds)
 
 
 if __name__ == '__main__':
