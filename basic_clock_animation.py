@@ -129,7 +129,6 @@ def start_clock():
     while True:
         start_time = datetime.now()
         if hours != old_hours:
-            print('hours changed', hours, old_hours)
             hour_turtle.undo()
             hour_turtle.undo()
             hour_turtle.right(hours)
@@ -154,7 +153,7 @@ def start_clock():
         if seconds % 60 == 0:
             minutes += 1
 
-        if minutes % 12 == 0:
+        if minutes % 12 == 0 and old_minutes != minutes:
             hours += 1
 
         seconds %= 360
