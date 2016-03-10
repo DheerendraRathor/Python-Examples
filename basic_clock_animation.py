@@ -46,11 +46,11 @@ def make_clock():
     clock_turtle.color('#37474F', '#ECEFF1')
 
     # Making Circle
-    clock_turtle.forward(350)
+    clock_turtle.forward(300)
     clock_turtle.left(90)
     clock_turtle.pendown()
     clock_turtle.begin_fill()
-    clock_turtle.circle(350)
+    clock_turtle.circle(300)
     clock_turtle.end_fill()
     clock_turtle.penup()
 
@@ -58,7 +58,7 @@ def make_clock():
     clock_turtle.left(90)
 
     for i in range(0, 60):
-        clock_turtle.forward(300)
+        clock_turtle.forward(250)
         if i % 5 == 0:
             # 5 minutes complete
             clock_turtle.pensize(10)
@@ -76,7 +76,7 @@ def make_clock():
             clock_turtle.penup()
             clock_turtle.back(10)
 
-        clock_turtle.back(300)
+        clock_turtle.back(250)
         clock_turtle.right(6)
 
     clock_turtle.home()
