@@ -43,7 +43,7 @@ for turtle in turtles:
 
 def make_clock():
     clock_turtle.penup()
-    clock_turtle.color('#1A237E', '#E8EAF6')
+    clock_turtle.color('#37474F', '#ECEFF1')
 
     # Making Circle
     clock_turtle.forward(350)
@@ -84,14 +84,14 @@ def make_clock():
 
 def setup_hour_hand():
     hour_turtle.pensize(10)
-    hour_turtle.color('#283593')
+    hour_turtle.color('#212121')
     hour_turtle.home()
     hour_turtle.left(90)
 
 
 def setup_minute_hand():
     minute_turtle.pensize(5)
-    minute_turtle.color('#5C6BC0')
+    minute_turtle.color('#424242')
     minute_turtle.home()
     minute_turtle.left(90)
 
@@ -99,8 +99,8 @@ def setup_minute_hand():
 def setup_second_hand():
     second_turtle.home()
     second_turtle.left(90)
-    second_turtle.pensize(1)
-    second_turtle.color('#1A237E')
+    second_turtle.pensize(2)
+    second_turtle.color('#616161')
 
 
 def get_current_time():
@@ -142,7 +142,9 @@ def start_clock():
 
         second_turtle.undo()
         second_turtle.undo()
+        second_turtle.undo()
         second_turtle.right(seconds)
+        second_turtle.back(20)
         second_turtle.forward(250)
 
         old_minutes = minutes
